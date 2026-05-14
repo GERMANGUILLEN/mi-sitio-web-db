@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mi sitio con Base de Datos</title>
+
+<style>
+body{
+    font-family: Arial;
+    background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
+    background-size:cover;
+    color:white;
+    text-align:center;
+}
+
+.container{
+    background:rgba(0,0,0,0.6);
+    margin:50px auto;
+    padding:20px;
+    width:80%;
+    border-radius:10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h1>Aplicación Web con Base de Datos</h1>
+
+    <button onclick="obtenerDatos()">
+        Consultar Base de Datos
+    </button>
+
+    <pre id="resultado"></pre>
+</div>
+
+<script>
+async function obtenerDatos(){
+    const respuesta = await fetch('/datos');
+    const datos = await respuesta.json();
+
+    document.getElementById('resultado').innerText =
+        JSON.stringify(datos, null, 2);
+}
+</script>
+
+</body>
+</html>
