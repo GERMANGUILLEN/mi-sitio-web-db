@@ -36,12 +36,32 @@ body{
 </div>
 
 <script>
-async function obtenerDatos(){
-    const respuesta = await fetch('/datos');
-    const datos = await respuesta.json();
+async function obtenerDatos() {
 
-    document.getElementById('resultado').innerText =
-        JSON.stringify(datos, null, 2);
+    const resultado = document.getElementById('resultado');
+
+    try {
+
+        resultado.innerText = "Consultando base de datos...";
+
+        const respuesta = await fetch('/datos');
+
+        if (!respuesta.ok) {
+            throw new Error("Error en servidor");
+        }
+
+        const datos = await respuesta.json();
+
+        resultado.innerText =
+            JSON.stringify(datos, null, 2);
+
+    } catch (error) {
+
+        resultado.innerText =
+            "Error: " + error.message;
+
+        console.error(error);
+    }
 }
 </script>
 
