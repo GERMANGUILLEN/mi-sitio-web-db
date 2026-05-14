@@ -3,6 +3,9 @@ const { Pool } = require('pg');
 
 const app = express();
 
+console.log("DATABASE_URL:");
+console.log(process.env.DATABASE_URL);
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -16,9 +19,13 @@ app.get('/datos', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
     res.json(result.rows);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
+} catch (err) {
+
+  console.error("ERROR POSTGRESQL:");
+  console.error(err);
+
+  res.status(500).send(err.message);
+}
 });
 
 const PORT = process.env.PORT || 3000;
