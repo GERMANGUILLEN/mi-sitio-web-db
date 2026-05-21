@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 
 <meta charset="UTF-8">
@@ -47,22 +48,45 @@ margin:5px;
 
 </head>
 
+
 <body>
 
 <div class="container">
 
 <h1>
-CRUD Usuarios
+
+CRUD Usuarios Railway
+
 </h1>
 
 
-<button onclick="obtenerDatos()">
 
-Consultar Usuarios
+<button
+onclick="obtenerDatos()">
+
+Consultar Todos
 
 </button>
 
+
 <br>
+
+
+<input
+id="idBuscar"
+placeholder="ID">
+
+
+<button
+onclick="buscarUsuario()">
+
+Consultar Individual
+
+</button>
+
+
+
+<br><br>
 
 
 <input
@@ -83,7 +107,35 @@ Agregar
 </button>
 
 
-<br>
+
+<br><br>
+
+
+<input
+id="idEditar"
+placeholder="ID editar">
+
+
+<input
+id="nuevoNombre"
+placeholder="Nuevo nombre">
+
+
+<input
+id="nuevoCorreo"
+placeholder="Nuevo correo">
+
+
+<button
+onclick="editarUsuario()">
+
+Editar
+
+</button>
+
+
+
+<br><br>
 
 
 <input
@@ -99,8 +151,8 @@ Eliminar
 </button>
 
 
-
 <pre id="resultado"></pre>
+
 
 </div>
 
@@ -109,13 +161,58 @@ Eliminar
 <script>
 
 
+/* CONSULTAR TODOS */
+
 async function obtenerDatos(){
 
-const respuesta =
-await fetch('/usuarios');
+const respuesta=
 
-const datos =
+await fetch(
+'/usuarios'
+);
+
+const datos=
+
 await respuesta.json();
+
+document.getElementById(
+'resultado'
+).innerText=
+
+JSON.stringify(
+datos,
+null,
+2
+);
+
+}
+
+
+
+/* CONSULTAR INDIVIDUAL */
+
+async function buscarUsuario(){
+
+const id=
+
+document.getElementById(
+'idBuscar'
+).value;
+
+
+const respuesta=
+
+await fetch(
+
+'/usuarios/'+id
+
+);
+
+
+const datos=
+
+await respuesta.json();
+
 
 document.getElementById(
 'resultado'
@@ -135,16 +232,17 @@ null,
 
 async function agregarUsuario(){
 
-const nombre =
+const nombre=
 document.getElementById(
 'nombre'
 ).value;
 
 
-const correo =
+const correo=
 document.getElementById(
 'correo'
 ).value;
+
 
 
 await fetch(
@@ -182,12 +280,69 @@ obtenerDatos();
 
 
 
+/* EDITAR */
+
+async function editarUsuario(){
+
+const id=
+document.getElementById(
+'idEditar'
+).value;
+
+
+const nombre=
+document.getElementById(
+'nuevoNombre'
+).value;
+
+
+const correo=
+document.getElementById(
+'nuevoCorreo'
+).value;
+
+
+
+await fetch(
+
+'/usuarios/'+id,
+
+{
+
+method:'PUT',
+
+headers:{
+
+'Content-Type':
+'application/json'
+
+},
+
+body:
+
+JSON.stringify({
+
+nombre,
+correo
+
+})
+
+}
+
+);
+
+
+obtenerDatos();
+
+}
+
+
+
 /* ELIMINAR */
 
 async function eliminarUsuario(){
 
 const id=
-
 document.getElementById(
 'idEliminar'
 ).value;
@@ -212,6 +367,7 @@ obtenerDatos();
 
 
 </script>
+
 
 </body>
 </html>
