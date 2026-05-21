@@ -8,28 +8,40 @@ console.log(process.env.DATABASE_URL);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-ssl: process.env.RAILWAY_ENVIRONMENT
-  ? { rejectUnauthorized: false }
-  : false
+  ssl: {
+    rejectUnauthorized: false
+  },
+
+  connectionTimeoutMillis: 5000
 });
 
 app.use(express.static('public'));
 
 app.get('/datos', async (req, res) => {
+
   try {
-    const result = await pool.query('SELECT NOW()');
+
+    const result =
+      await pool.query('SELECT NOW()');
+
     res.json(result.rows);
-} catch (err) {
 
-  console.error("ERROR POSTGRESQL:");
-  console.error(err);
+  } catch (err) {
 
-  res.status(500).send(err.message);
-}
+    console.error("ERROR POSTGRESQL:");
+    console.error(err);
+
+    res.status(500).send(err.message);
+  }
+
 });
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
+
+  console.log(
+    `Servidor corriendo en puerto ${PORT}`
+  );
+
 });
