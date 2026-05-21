@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
 <meta charset="UTF-8">
 
 <title>
-Mi sitio con Base de Datos
+CRUD Usuarios
 </title>
 
 <style>
 
 body{
-    font-family:Arial;
-    background-image:url(
-'https://images.unsplash.com/photo-1507525428034-b723cf961d3e'
-    );
 
-    background-size:cover;
-    color:white;
-    text-align:center;
+font-family:Arial;
+background-image:url(
+'https://images.unsplash.com/photo-1507525428034-b723cf961d3e'
+);
+
+background-size:cover;
+color:white;
+text-align:center;
+
 }
 
 .container{
@@ -35,15 +36,7 @@ border-radius:10px;
 
 }
 
-button{
-
-padding:10px;
-margin:5px;
-cursor:pointer;
-
-}
-
-input{
+button,input{
 
 padding:10px;
 margin:5px;
@@ -54,15 +47,12 @@ margin:5px;
 
 </head>
 
-
 <body>
 
 <div class="container">
 
 <h1>
-
-Aplicación Web con Base de Datos
-
+CRUD Usuarios
 </h1>
 
 
@@ -72,8 +62,7 @@ Consultar Usuarios
 
 </button>
 
-
-<br><br>
+<br>
 
 
 <input
@@ -89,13 +78,29 @@ placeholder="Correo">
 <button
 onclick="agregarUsuario()">
 
-Agregar Usuario
+Agregar
 
 </button>
 
 
-<pre id="resultado"></pre>
+<br>
 
+
+<input
+id="idEliminar"
+placeholder="ID eliminar">
+
+
+<button
+onclick="eliminarUsuario()">
+
+Eliminar
+
+</button>
+
+
+
+<pre id="resultado"></pre>
 
 </div>
 
@@ -104,36 +109,17 @@ Agregar Usuario
 <script>
 
 
-/*
-=====================
-CONSULTAR TODOS
-=====================
-*/
-
 async function obtenerDatos(){
 
-const resultado =
-document.getElementById(
-'resultado'
-);
-
-try{
-
-resultado.innerText =
-"Cargando...";
-
-
 const respuesta =
-await fetch(
-'/usuarios'
-);
-
+await fetch('/usuarios');
 
 const datos =
 await respuesta.json();
 
-
-resultado.innerText =
+document.getElementById(
+'resultado'
+).innerText=
 
 JSON.stringify(
 datos,
@@ -141,43 +127,24 @@ null,
 2
 );
 
-}catch(error){
-
-resultado.innerText =
-
-"Error: "
-
-+ error.message;
-
-}
-
 }
 
 
 
-/*
-=====================
-AGREGAR
-=====================
-*/
+/* AGREGAR */
 
 async function agregarUsuario(){
 
-
 const nombre =
-
 document.getElementById(
 'nombre'
 ).value;
 
 
-
 const correo =
-
 document.getElementById(
 'correo'
 ).value;
-
 
 
 await fetch(
@@ -191,7 +158,6 @@ method:'POST',
 headers:{
 
 'Content-Type':
-
 'application/json'
 
 },
@@ -210,15 +176,34 @@ correo
 );
 
 
+obtenerDatos();
+
+}
+
+
+
+/* ELIMINAR */
+
+async function eliminarUsuario(){
+
+const id=
+
 document.getElementById(
-'nombre'
-).value='';
+'idEliminar'
+).value;
 
 
-document.getElementById(
-'correo'
-).value='';
+await fetch(
 
+'/usuarios/'+id,
+
+{
+
+method:'DELETE'
+
+}
+
+);
 
 
 obtenerDatos();
@@ -226,10 +211,7 @@ obtenerDatos();
 }
 
 
-
 </script>
 
-
 </body>
-
 </html>
