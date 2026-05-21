@@ -1,68 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
 <meta charset="UTF-8">
-<title>Mi sitio con Base de Datos</title>
+
+<title>
+Mi sitio con Base de Datos
+</title>
 
 <style>
+
 body{
-    font-family: Arial;
-    background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');
-    background-size:cover;
-    color:white;
-    text-align:center;
+
+font-family:Arial;
+background-image:url(
+'https://images.unsplash.com/photo-1507525428034-b723cf961d3e'
+);
+
+background-size:cover;
+color:white;
+text-align:center;
+
 }
 
 .container{
-    background:rgba(0,0,0,0.6);
-    margin:50px auto;
-    padding:20px;
-    width:80%;
-    border-radius:10px;
+
+background:rgba(
+0,0,0,.6
+);
+
+margin:50px auto;
+padding:20px;
+width:80%;
+border-radius:10px;
+
 }
+
+button{
+
+padding:10px 20px;
+cursor:pointer;
+
+}
+
 </style>
 
 </head>
+
 <body>
 
 <div class="container">
-    <h1>Aplicación Web con Base de Datos</h1>
 
-    <button onclick="obtenerDatos()">
-        Consultar Base de Datos
-    </button>
+<h1>
+Aplicación Web con Base de Datos
+</h1>
 
-    <pre id="resultado"></pre>
+<button onclick="obtenerDatos()">
+
+Consultar Usuarios
+
+</button>
+
+<pre id="resultado"></pre>
+
 </div>
 
+
 <script>
-async function obtenerDatos() {
 
-    const resultado = document.getElementById('resultado');
+async function obtenerDatos(){
 
-    try {
+const resultado =
+document.getElementById(
+'resultado'
+);
 
-        resultado.innerText = "Consultando base de datos...";
+try{
 
-        const respuesta = await fetch('/datos');
+resultado.innerText =
+"Cargando...";
 
-        if (!respuesta.ok) {
-            throw new Error("Error en servidor");
-        }
 
-        const datos = await respuesta.json();
+const respuesta =
+await fetch('/usuarios');
 
-        resultado.innerText =
-            JSON.stringify(datos, null, 2);
 
-    } catch (error) {
+const datos =
+await respuesta.json();
 
-        resultado.innerText =
-            "Error: " + error.message;
 
-        console.error(error);
-    }
+resultado.innerText =
+
+JSON.stringify(
+datos,
+null,
+2
+);
+
+}catch(error){
+
+resultado.innerText =
+"Error: "
++ error.message;
+
 }
+
+}
+
 </script>
 
 </body>
